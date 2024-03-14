@@ -3,3 +3,8 @@ from rest_framework import viewsets #viewset is a class-based view that provides
 from . import serializers
 from . import models
 # Create your views here.
+
+class TodoViewSet(viewsets.ModelViewSet):
+    queryset = models.Todo.objects.all()
+    serializer_class = serializers.TodoSerializer
+    
