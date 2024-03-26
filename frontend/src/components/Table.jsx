@@ -5,7 +5,7 @@ import { ImCheckboxChecked } from "react-icons/im";
 import { ImCheckboxUnchecked } from "react-icons/im";
 function Table({ todos, setTodos, isLoading }) {
   return (
-    <div>
+    <>
       <table>
         <thead>
           <tr>
@@ -49,7 +49,7 @@ function Table({ todos, setTodos, isLoading }) {
           )}
         </tbody>
       </table>
-    </div>
+    </>
   );
 }
 

@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-
+import axios from "axios";
 function TodoForm() {
   const [newTodo, setNewTodo] = useState({
     body: "",
@@ -11,10 +11,17 @@ function TodoForm() {
       [name]: value,
     });
   };
-  console.log(newTodo);
+  const postTodo = async () => {
+    try {
+      await axios.post("http://127.0.0.1:8000/api/todo/", newTodo);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   return (
     <div>
-      <form>
+      <form onSubmit={postTodo}>
         <input
           name="body"
           type="text"
