@@ -6,23 +6,23 @@ import { ImCheckboxUnchecked } from "react-icons/im";
 function Table({ todos, setTodos, isLoading }) {
   return (
     <>
-      <table>
-        <thead>
-          <tr>
-            <th>Checkbox</th>
-            <th>To Do</th>
-            <th>Status</th>
-            <th>Date created</th>
-            <th>Actions</th>
-          </tr>
-        </thead>
-        <tbody>
-          {isLoading ? (
-            <div>Loading...</div>
-          ) : (
-            todos.map((todo) => {
-              return (
-                <tr key={todo.id}>
+      {isLoading ? (
+        <p>Loading...</p>
+      ) : (
+        <table>
+          <thead>
+            <tr>
+              <th>Checkbox</th>
+              <th>To Do</th>
+              <th>Status</th>
+              <th>Date created</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          {todos.map((todo) => {
+            return (
+              <tbody key={todo.id}>
+                <tr>
                   <td title={todo.id}>
                     <span>
                       {todo.completed ? (
@@ -44,11 +44,11 @@ function Table({ todos, setTodos, isLoading }) {
                     </span>
                   </td>
                 </tr>
-              );
-            })
-          )}
-        </tbody>
-      </table>
+              </tbody>
+            );
+          })}
+        </table>
+      )}
     </>
   );
 }

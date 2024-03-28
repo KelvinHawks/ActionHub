@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import axios from "axios";
-function TodoForm() {
+function TodoForm({ fetchData }) {
   const [newTodo, setNewTodo] = useState({
     body: "",
   });
@@ -11,9 +11,15 @@ function TodoForm() {
       [name]: value,
     });
   };
-  const postTodo = async () => {
+  const postTodo = async (e) => {
+    e.preventDefault();
     try {
       await axios.post("http://127.0.0.1:8000/api/todo/", newTodo);
+      fetchData();
+
+      setNewTodo({
+        body: "",
+      });
     } catch (error) {
       console.log(error);
     }
@@ -28,6 +34,11 @@ function TodoForm() {
           placeholder="Add Todo"
           onChange={handleChange}
           value={newTodo.body}
+          onKeyDown={(e) => {
+            if (e.key === "Enter") {
+              postTodo();
+            }
+          }}
         />
         <button>Add</button>
       </form>
