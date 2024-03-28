@@ -1,9 +1,18 @@
 import React from "react";
-
+import axios from "axios";
 import { MdDelete, MdEdit } from "react-icons/md";
 import { ImCheckboxChecked } from "react-icons/im";
 import { ImCheckboxUnchecked } from "react-icons/im";
-function Table({ todos, setTodos, isLoading }) {
+function Table({ todos, setTodos, isLoading, fetchData }) {
+  const handleDelete = async (id) => {
+    try {
+      await axios.delete(`http://127.0.0.1:8000/api/todo/${id}`);
+      const newList = todos.filter((todo) => todo.id !== id);
+      setTodos(newList);
+    } catch (error) {
+      console.log(error);
+    }
+  };
   return (
     <>
       {isLoading ? (
@@ -40,7 +49,7 @@ function Table({ todos, setTodos, isLoading }) {
                       <MdEdit />
                     </span>
                     <span>
-                      <MdDelete />
+                      <MdDelete onClick={() => handleDelete(todo.id)} />
                     </span>
                   </td>
                 </tr>

@@ -28,7 +28,12 @@ function App() {
         <h1 className="text-5xl text-center">ToDo List</h1>
       </nav>
       <TodoForm setTodos={setTodos} fetchData={fetchData} />
-      <Table todos={todos} setTodos={setTodos} isLoading={isLoading} />
+      <Table
+        todos={todos}
+        setTodos={setTodos}
+        isLoading={isLoading}
+        fetchData={fetchData}
+      />
     </div>
   );
 }
