@@ -13,6 +13,26 @@ function Table({ todos, setTodos, isLoading, fetchData }) {
       console.log(error);
     }
   };
+
+  const handleEdit = async (id, value) => {
+    try {
+      const response = await patch(
+        `http://127.0.0.1:8000/api/todo/${id}`,
+        value
+      );
+      const newTodos = todos.map((todo) =>
+        todo.id === id ? response.data : todo
+      );
+      setTodos(newTodos);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+  const handleCheckBox = (id, value) => {
+    handleEdit(id, {
+      completed: value,
+    });
+  };
   return (
     <>
       {isLoading ? (
@@ -33,7 +53,11 @@ function Table({ todos, setTodos, isLoading, fetchData }) {
               <tbody key={todo.id}>
                 <tr>
                   <td title={todo.id}>
-                    <span>
+                    <span
+                      onClick={() => {
+                        handleCheckBox(todo.id, todo.completed);
+                      }}
+                    >
                       {todo.completed ? (
                         <ImCheckboxChecked />
                       ) : (
