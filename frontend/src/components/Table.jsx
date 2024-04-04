@@ -1,9 +1,13 @@
-import React from "react";
+import React, { useState } from "react";
 import axios from "axios";
 import { MdDelete, MdEdit } from "react-icons/md";
 import { ImCheckboxChecked } from "react-icons/im";
 import { ImCheckboxUnchecked } from "react-icons/im";
 function Table({ todos, setTodos, isLoading, fetchData }) {
+  const [showEditModal, setShowEditModal] = useState(false);
+  const [editTodo, setEditTodo] = useState({
+    body: "",
+  });
   const handleDelete = async (id) => {
     try {
       await axios.delete(`http://127.0.0.1:8000/api/todo/${id}`);
@@ -13,11 +17,13 @@ function Table({ todos, setTodos, isLoading, fetchData }) {
       console.log(error);
     }
   };
-
+  const modalHandler = () => {
+    setShowEditModal((prev) => !prev);
+  };
   const handleEdit = async (id, value) => {
     try {
-      const response = await patch(
-        `http://127.0.0.1:8000/api/todo/${id}`,
+      const response = await axios.patch(
+        `http://127.0.0.1:8000/api/todo/${id}/`,
         value
       );
       const newTodos = todos.map((todo) =>
@@ -30,8 +36,15 @@ function Table({ todos, setTodos, isLoading, fetchData }) {
   };
   const handleCheckBox = (id, value) => {
     handleEdit(id, {
-      completed: value,
+      completed: !value,
     });
+  };
+  const handleChange = (e) => {
+    setEditTodo((prev) => ({
+      ...prev,
+      body: e.taget.value,
+    }));
+    console.log(editTodo);
   };
   return (
     <>
@@ -69,7 +82,7 @@ function Table({ todos, setTodos, isLoading, fetchData }) {
                   <td>{todo.completed ? "Complete" : "Incomplete"}</td>
                   <td>{new Date(todo.created).toLocaleString()}</td>
                   <td>
-                    <span>
+                    <span onClick={modalHandler}>
                       <MdEdit />
                     </span>
                     <span>
@@ -81,6 +94,12 @@ function Table({ todos, setTodos, isLoading, fetchData }) {
             );
           })}
         </table>
+      )}
+      {showEditModal && (
+        <form>
+          <input type="text" onChange={handleChange} />
+          <button type="submit">Edit</button>
+        </form>
       )}
     </>
   );
