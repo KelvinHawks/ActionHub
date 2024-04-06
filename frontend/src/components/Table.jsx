@@ -44,7 +44,7 @@ function Table({ todos, setTodos, isLoading, fetchData }) {
       ...prev,
       body: e.taget.value,
     }));
-    console.log(editTodo);
+    // console.log(editTodo);
   };
   return (
     <>
